@@ -85,7 +85,30 @@
 
 
         <div id="expedisi-content" style="display: none;">
-            <h1>View Stock</h1>
+            <h1>Expedisi</h1>
+            <div class="container-sm">
+                <form action="status" method="post">
+                    @method('POST')
+                    @csrf
+                    <div class="form-group">
+                        <label for="resi">Resi</label><br>
+                        <input type="text" name="resi" class="form-control-sm" placeholder="Resi" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label><br>
+                        <select class="form-control-sm" name="status" required>
+                            <option value="">Pilih Status</option>
+                            <option value="Dalam proses">Dalam proses</option>
+                            <option value="Paket telah dipickup">Paket telah dipickup</option>
+                            <option value="Paket sedang diantar ke alamat penerima">Paket sedang diantar ke alamat penerima</option>
+                            <option value="Paket berhasil dikirim">Paket berhasil dikirim</option>
+                            <option value="done">Done</option>
+                          </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+
+            </div>
         </div>
 </div>
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('pengiriman', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_id');
             $table->string('pengirim');
             $table->string('telp_pengirim');
             $table->string('alamat_pengirim');
@@ -26,6 +27,8 @@ return new class extends Migration
             $table->string('kode_pos');
             $table->string('alamat_pengiriman');
             $table->string('resi');
+            $table->string('status');
+            $table->string('customer_name');
             $table->timestamps();
         });
     }

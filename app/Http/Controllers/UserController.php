@@ -30,4 +30,19 @@ class UserController extends Controller
         // dd($data);
         return view('myorder', compact(['data']));
     }
+    public function ondelivery()
+    {
+
+        $response = Http::get('http://127.0.0.1:9999/api/detailpengiriman');
+        $data = json_decode($response, true);
+        $value = $data['data'];
+        $customerName = Auth::user()->name;
+
+        $filteredData = array_filter($data['data'], function ($item) use ($customerName) {
+            return $item['customer_name'] === $customerName;
+        });
+        // dd($filteredData);
+
+        return view('ondelivery', compact(['filteredData']));
+    }
 }

@@ -32,4 +32,5 @@ Route::get('services', [EkspedisiController::class, 'services']);
 Route::get('kota', [EkspedisiController::class, 'kota']);
 
 Route::get('detailtransaction', [PartnerController::class, 'transaction']);
-Route::put('statusupdate/{id}', [PartnerController::class, 'update']);
+Route::get('detailpengiriman', [PartnerController::class, 'pengiriman']);
+

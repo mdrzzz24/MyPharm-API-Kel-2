@@ -26,6 +26,8 @@ Route::get('/', function () {
 });
 Route::get('/partner', [PartnerController::class, 'index']);
 Route::post('/payment', [PartnerController::class, 'pay']);
+Route::post('/status', [PartnerController::class, 'status']);
+
 
 Auth::routes();
 
@@ -51,6 +53,7 @@ Route::prefix('user')->middleware('auth','isUser')->group(function(){
     Route::post('/detailorder', [UserTransactionController::class, 'detailorder'] );
     Route::get('/pay', [UserTransactionController::class, 'pay']);
     Route::get('/myorder', [UserController::class, 'myorder']);
+    Route::get('/ondelivey', [UserController::class, 'ondelivery']);
     // Route::get('/find', [AdminController::class, 'find'] );
     // Route::get('/{id}', [AdminController::class, 'DetailProduct'] );
     // Route::delete('delete/{id}', [AdminController::class, 'DeleteProduct'] );

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailTransaction;
+use App\Models\Pengiriman;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -122,7 +123,7 @@ class UserTransactionController extends Controller
         $subtotal = $datatable->sum('total_price');
         $randomDigits = mt_rand(100000, 999999);
         $randomId = 'T0' . $randomDigits;
-        dd($request);
+        // dd($request);
         foreach ($datatable as $transaction) {
             $transaction->payment_status = 'paid';
             $transaction->save();
@@ -144,6 +145,26 @@ class UserTransactionController extends Controller
             ];
         }
         DetailTransaction::insert($dataToInsert);
+        $sp = 'waiting';
+        Pengiriman::create([
+            'transaction_id' => $randomId,
+            'pengirim' => $request -> pengirim,
+            'telp_pengirim' => $request -> telp_pengirim,
+            'alamat_pengirim' => $request -> alamat_pengirim,
+            'nama_penerima' => $request -> penerima,
+            'telp_penerima' => $request -> phone,
+            'service' => $request -> service,
+            'ongkir' => $request -> ongkir,
+            'kota' => $request -> kota,
+            'kecamatan' => $request -> kecamatan,
+            'kelurahan' => $request -> kelurahan,
+            'kode_pos' => $request -> kodepos,
+            'alamat_pengiriman' => $request -> alamat,
+            'resi' => $request -> resi,
+            'status' => $sp,
+            'customer_name' => Auth::user()->name,
+        ]);
+        // Pengiriman::insert($datapengiriman);
         return redirect('/home');
         // dd($datatable);
     }

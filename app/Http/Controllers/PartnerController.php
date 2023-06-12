@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Formatter\APIFormatter;
 use App\Models\DetailTransaction;
+use App\Models\Pengiriman;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class PartnerController extends Controller
 {
@@ -20,34 +23,12 @@ class PartnerController extends Controller
             return APIFormatter::createApi(400, 'Failed');
         }
     }
-    public function update(Request $request, string $id)
-    {
-        try {
-            $request -> validate([
-                'transaction_id' => 'required',
-            ]);
-
-            $st = DetailTransaction::findOrFail($id);
-
-            $st -> update([
-                'transaction_id' => $request -> price,
-            ]);
-            $show = DetailTransaction::where('id', '=', $st->id)->get();
-
-            if ($show){
-                if ($show) {
-                    return APIFormatter::createApi(200, 'Success update data', $show);
-                } else {
-                    return APIFormatter::createApi(400, 'Failed');
-                }
-            }
-        } catch (Exception $error) {
-            return APIFormatter::createApi(400, 'Failed');
-        }
-    }
     public function index()
     {
-        return view('partnersimulation');
+        $response = Http::get('http://127.0.0.1:9999/api/detailpengiriman');
+        $data = json_decode($response, true);
+        $value = $data['data'];
+        return view('partnersimulation', compact(['value']));
     }
     public function pay(Request $request)
     {
@@ -62,5 +43,32 @@ class PartnerController extends Controller
             $data->save();
         }
         return redirect('/partner');
+    }
+    public function pengiriman()
+    {
+        $data = Pengiriman::select('*')
+        // ->where('customer_name', '=', Auth::user()->name)
+        ->whereNotIn('status', ['done'])
+        ->get();
+        if ($data) {
+            return APIFormatter::createApi(200, 'Success', $data);
+        } else {
+            return APIFormatter::createApi(400, 'Failed');
+        }
+    }
+    public function status(Request $request)
+    {
+        $data = Pengiriman::where('resi', $request['resi'])->first();
+        if ($data) {
+            $data->status = $request['status'];
+            $data->save();
+            return redirect("/partner");
+        } else {
+            // Handle the case when the record is not found
+            // For example, you could return an error message or redirect back with an error status
+        }
+        // dd($data);
+
+
     }
 }
