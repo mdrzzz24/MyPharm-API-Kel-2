@@ -87,6 +87,10 @@ class UserTransactionController extends Controller
         $message = $data['message'];
         $services = $data['data'];
 
+        $response1 = Http::get('http://127.0.0.1:9999/api/merchantdetail');
+        $data1 = json_decode($response1, true);
+        $merchant = $data1['data'];
+        // dd($merchant);
         $ongkir = null;
         $estimasi = null;
 
@@ -98,7 +102,6 @@ class UserTransactionController extends Controller
             }
         }
         // dd($estimasi);
-
         $datatable = Transaction::select('*')
         ->where('customer_name','=', Auth::user()->name)
         ->where('payment_status','=','waiting')
@@ -109,7 +112,7 @@ class UserTransactionController extends Controller
 
         // dd($request);
 
-        return view('detailcheckout', compact(['request','datatable' , 'ongkir', 'estimasi', 'totalsemua', 'randomId', 'randomTC']));
+        return view('detailcheckout', compact(['request','datatable' , 'ongkir', 'estimasi', 'totalsemua', 'randomId', 'randomTC', 'merchant']));
     }
     public function pay(Request $request)
     {
@@ -119,10 +122,11 @@ class UserTransactionController extends Controller
         $subtotal = $datatable->sum('total_price');
         $randomDigits = mt_rand(100000, 999999);
         $randomId = 'T0' . $randomDigits;
-        // dd($request);
+        dd($request);
         foreach ($datatable as $transaction) {
-            $transaction->payment_status = 'waiting';
+            $transaction->payment_status = 'paid';
             $transaction->save();
+            $st='waiting';
 
             $dataToInsert[] = [
                 'transaction_id' => $randomId,
@@ -134,7 +138,7 @@ class UserTransactionController extends Controller
                 'total_price' =>  $subtotal,
                 'payment_method'=> $transaction -> payment_method,
                 'transaction_date' =>  $transaction -> transaction_date,
-                'payment_status' =>  $transaction -> payment_status,
+                'payment_status' =>  $st,
                 'customer_name'=> $transaction -> customer_name,
                 // Masukkan nilai dari transaksi ke kolom tabel lain yang sesuai
             ];

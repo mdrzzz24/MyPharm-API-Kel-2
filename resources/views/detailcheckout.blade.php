@@ -30,6 +30,9 @@
                     <td>{{ $request['alamat'] }}</td>
                   </tr>
             </tbody>
+            <input hidden name="pengirim" type="text" value="{{ $merchant[0]['merchant_name'] }}">
+            <input hidden name="telp_pengirim" type="text" value="{{ $merchant[0]['phone'] }}">
+            <input hidden name="alamat_pengirim" type="text" value="{{ $merchant[0]['address'] }}">
             <input hidden name="penerima" type="text" value="{{ $request['penerima'] }}">
             <input hidden name="phone" type="text" value="{{ $request['phone_number'] }}">
             <input hidden name="service" type="text" value="{{ $request['service'] }}">
