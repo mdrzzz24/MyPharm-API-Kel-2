@@ -37,12 +37,24 @@ class UserController extends Controller
         $data = json_decode($response, true);
         $value = $data['data'];
         $customerName = Auth::user()->name;
-
-        $filteredData = array_filter($data['data'], function ($item) use ($customerName) {
-            return $item['customer_name'] === $customerName;
+        $sts = 'done';
+        $filteredData = array_filter($data['data'], function ($item) use ($customerName, $sts) {
+            return $item['customer_name'] === $customerName && $item['status'] !== $sts;
         });
         // dd($filteredData);
-
         return view('ondelivery', compact(['filteredData']));
+    }
+    public function complete()
+    {
+        $response = Http::get('http://127.0.0.1:9999/api/detailpengiriman');
+        $data = json_decode($response, true);
+        $value = $data['data'];
+
+        $customerName = Auth::user()->name;
+
+        $filteredData = array_filter($value, function ($item) use ($customerName) {
+            return $item['status'] === 'done' && $item['customer_name'] === $customerName;
+        });
+        return view('complete', compact(['filteredData']));
     }
 }

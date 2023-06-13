@@ -4,10 +4,10 @@
 <div class="container">
     @if(empty($filteredData))
     <center>
-        <h3>Tidak ada data pengiriman.</h3>
+        <h3>Tidak ada data pesanan selesai.</h3>
     </center>
     @else
-    <h1>Your Order</h1>
+    <h1>Your Complete Order</h1>
     <table class="table mt-3">
         <thead>
           <tr>

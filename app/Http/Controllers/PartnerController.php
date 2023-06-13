@@ -14,9 +14,7 @@ class PartnerController extends Controller
 {
     public function transaction()
     {
-        $data = DetailTransaction::select('*')
-        ->where('payment_status','=', 'waiting')
-        ->get();
+        $data = DetailTransaction::all();
         if ($data) {
             return APIFormatter::createApi(200, 'Success', $data);
         } else {
@@ -43,18 +41,6 @@ class PartnerController extends Controller
             $data->save();
         }
         return redirect('/partner');
-    }
-    public function pengiriman()
-    {
-        $data = Pengiriman::select('*')
-        // ->where('customer_name', '=', Auth::user()->name)
-        ->whereNotIn('status', ['done'])
-        ->get();
-        if ($data) {
-            return APIFormatter::createApi(200, 'Success', $data);
-        } else {
-            return APIFormatter::createApi(400, 'Failed');
-        }
     }
     public function status(Request $request)
     {

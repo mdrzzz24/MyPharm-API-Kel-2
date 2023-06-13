@@ -4,6 +4,7 @@ use App\Http\Controllers\API\MerchantController;
 use App\Http\Controllers\API\ObatController;
 use App\Http\Controllers\EkspedisiController;
 use App\Http\Controllers\PartnerController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,8 @@ Route::get('services', [EkspedisiController::class, 'services']);
 Route::get('kota', [EkspedisiController::class, 'kota']);
 
 Route::get('detailtransaction', [PartnerController::class, 'transaction']);
-Route::get('detailpengiriman', [PartnerController::class, 'pengiriman']);
+Route::get('detailpengiriman', [EkspedisiController::class, 'pengiriman']);
+
+Route::get('resi', [EkspedisiController::class, 'resi']);
+Route::get('idtransaksi', [TransactionController::class, 'idtransaksi']);
 

@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Route::get('/partner', [PartnerController::class, 'index']);
 Route::post('/payment', [PartnerController::class, 'pay']);
@@ -52,8 +52,9 @@ Route::prefix('user')->middleware('auth','isUser')->group(function(){
     Route::post('/addcart', [UserTransactionController::class, 'addcart'] );
     Route::post('/detailorder', [UserTransactionController::class, 'detailorder'] );
     Route::get('/pay', [UserTransactionController::class, 'pay']);
-    Route::get('/myorder', [UserController::class, 'myorder']);
-    Route::get('/ondelivey', [UserController::class, 'ondelivery']);
+    Route::get('myorder', [UserController::class, 'myorder']);
+    Route::get('ondelivey', [UserController::class, 'ondelivery']);
+    Route::get('complete', [UserController::class, 'complete']);
     // Route::get('/find', [AdminController::class, 'find'] );
     // Route::get('/{id}', [AdminController::class, 'DetailProduct'] );
     // Route::delete('delete/{id}', [AdminController::class, 'DeleteProduct'] );

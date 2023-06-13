@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Formatter\APIFormatter;
 use App\Models\DetailTransaction;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -87,5 +88,14 @@ class TransactionController extends Controller
         }
         DetailTransaction::insert($dataToInsert);
         return redirect('/admin');
+    }
+    public function idtransaksi()
+    {
+        $data = DetailTransaction::select('id', 'transaction_id')->get();
+        if ($data) {
+            return APIFormatter::createApi(200, 'Success', $data);
+        } else {
+            return APIFormatter::createApi(400, 'Failed');
+        }
     }
 }
